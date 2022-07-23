@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Card from '../UI/Card';
 import './Expenses.css'
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
     const [ newName, setNewName ] = useState('')
-    const [ newAmount, setNerAmount ] = useState('')
+    const [ newAmount, setNewAmount ] = useState('')
     const [ newDate, setNewDate ] = useState('')
-    const [ newExpense, setNewExpense ] = useState('')
 
     const nameHandle = (e) => {
         setNewName(e.target.value)
     }
     const amountHandle = (e) => {
-        setNerAmount(e.target.value)
+        setNewAmount(e.target.value)
     }
     const dateHandle = (e) => {
         setNewDate(e.target.value)
@@ -21,20 +20,33 @@ const ExpenseForm = () => {
     const newExpenseHandle = (e) => {
         e.preventDefault()
        
-        const objectExpense = { title: newName, amount: newAmount, date: new Date(newDate) }
+        const objectExpense = { 
+            title: newName, 
+            amount: newAmount, 
+            date: new Date(newDate), 
+            id:Math.random().toString()
+         }
     
-        setNewExpense(objectExpense);
-    } 
+        props.addNewExpense(objectExpense);
+
+        resetForm();
+    }
+    
+    const resetForm = () => {
+        setNewName('')
+        setNewAmount('')
+        setNewDate('')
+    }
     
     return ( 
         <Card>
             <form className='expense-form' onSubmit={newExpenseHandle}>
                 <label>Name:</label>
-                <input type="text" onChange={nameHandle}/>
+                <input type="text" value={newName} onChange={nameHandle}/>
                 <label>Amount:</label>
-                <input type="number" onChange={amountHandle}/>
+                <input type="number" value={newAmount} onChange={amountHandle}/>
                 <label>Date:</label>
-                <input type="date" onChange={dateHandle} min="2022-01-01" max={"2022-12-31"}/>
+                <input type="date" value={newDate} onChange={dateHandle} min="2022-01-01" max={"2022-12-31"}/>
                 <button type='submit'>Send</button>
             </form>
         </Card>
