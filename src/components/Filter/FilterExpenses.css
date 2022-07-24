@@ -1,0 +1,9 @@
+select {
+    padding: .3rem;
+    border-radius: .5rem;
+}
+
+.label-filter {
+    text-align: center;
+    font-size: 1.1rem;
+}

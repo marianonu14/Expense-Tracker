@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import Expenses from './components/Expenses/Expenses';
 import ExpenseForm from './components/Expenses/ExpenseForm';
+import FilterExpenses from './components/Filter/FilterExpenses';
 
 import './App.css';
 
@@ -29,18 +30,24 @@ const databs = [
 
 function App() {
   const [ expenses ,setExpenses] = useState(databs)
+  const [ expensesFiltered ,setExpensesFiltered] = useState([])
 
   const onNewExpense = expense => {
     setExpenses( prevState => {
      return [expense, ...prevState]
     })
   }
+
+  const onFilterExpenses = (filtered) => {
+    setExpensesFiltered(filtered)
+  }
   
   return (
     <div className="App">
       <h1>Expense Tracker</h1>
       <ExpenseForm addNewExpense={onNewExpense} />
-      {expenses.length === 0 ? 'Loading...' : <Expenses items={expenses}  />}
+      <FilterExpenses expenses={expenses} onFilterExpenses={onFilterExpenses}/>
+      {expensesFiltered.length === 0 ? <Expenses items={expenses} /> : <Expenses items={expensesFiltered} />}
     </div>
   );
 }
